@@ -1,0 +1,15 @@
+cube = lambda x: x**3 # complete the lambda function 
+
+def fibonacci(n):
+    # return a list of fibonacci numbers
+    fibonacci_list = []
+    second_last_number = 0
+    last_number = 1
+    if n > 0:
+        fibonacci_list.append(second_last_number)
+        if n > 1:
+            fibonacci_list.append(last_number)
+            for _ in range(n - 2):
+                current_number = fibonacci_list[-1] + fibonacci_list[-2]
+                fibonacci_list.append(current_number)
+    return(fibonacci_list)
