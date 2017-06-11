@@ -10,11 +10,13 @@ def print_array(ary):
         print(ary[i], end=" ")
     print()
 
-    
+
+
+
 # refactored for starting index to be passed from second insertion_sort method
 # and go until we reach the 0th element (down to, but not including, -1)
-def insertion_sort_1(ary, starting_index):
-    key = insertion_sort_array_1[size - 1]
+def insertion_sort_1(ary, starting_index, key_index):
+    key = insertion_sort_array_1[key_index]
     for j in range(starting_index, -1, -1):
 
         # since this is python, we have to be careful with the index
@@ -31,9 +33,4 @@ def insertion_sort_1(ary, starting_index):
 
     print_array(ary)
 
-
-
-
-insertion_sort_1(insertion_sort_array_1, size-2)
-
-
+insertion_sort_1(insertion_sort_array_1, size - 2, size - 1)
