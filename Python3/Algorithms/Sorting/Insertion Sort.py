@@ -10,22 +10,30 @@ def print_array(ary):
         print(ary[i], end=" ")
     print()
 
-key = insertion_sort_array_1[size - 1]
-j = size - 1
-# we start our loop from the second to last element (size - 2)
+    
+# refactored for starting index to be passed from second insertion_sort method
 # and go until we reach the 0th element (down to, but not including, -1)
-for j in range(size - 2, -1, -1):
-    # since this is python, we have to be careful with the index
-    #   if we index the list at -1, this means the index will start checking the end of the list
-    if key < insertion_sort_array_1[j]:
-        insertion_sort_array_1[j+1] = insertion_sort_array_1[j]
-    else:
-        insertion_sort_array_1[j+1] = key
-        break
-    print_array(insertion_sort_array_1)
+def insertion_sort_1(ary, starting_index):
+    key = insertion_sort_array_1[size - 1]
+    for j in range(starting_index, -1, -1):
 
-    if j == 0:
-        insertion_sort_array_1[j] = key
+        # since this is python, we have to be careful with the index
+        #   if we index the list at -1, this means the index will start checking the end of the list
+        if key < ary[j]:
+            ary[j+1] = ary[j]
+        else:
+            ary[j+1] = key
+            break
+        print_array(ary)
 
-# print solution
-print_array(insertion_sort_array_1)
+        if j == 0:
+            ary[j] = key
+
+    print_array(ary)
+
+
+
+
+insertion_sort_1(insertion_sort_array_1, size-2)
+
+
