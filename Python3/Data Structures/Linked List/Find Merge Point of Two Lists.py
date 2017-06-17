@@ -29,35 +29,25 @@ def FindMergeNode(headA, headB):
 
     curr_node_A = headA
     curr_node_B = headB
-    if length_A == length_B:
-        while curr_node_A or curr_node_B:
-            if curr_node_A.data == curr_node_B.data:
-                result = curr_node_A.data
-                return result
-            else:
-                curr_node_A = curr_node_A.next
-                curr_node_B = curr_node_B.next
 
-    elif length_A > length_B:
-        curr_node_B = headB
-        while curr_node_B:
-            curr_node_A = headA
-            while curr_node_A:
-                if curr_node_A.data == curr_node_B.data:
+
+    while length_A > length_B:
+        length_A -= 1
+        curr_node_A = curr_node_A.next
+
+    while length_A < length_B:
+        length_B -= 1
+        curr_node_B = curr_node_B.next
+
+    result = None
+    while curr_node_A and curr_node_B:
+            if curr_node_A.data == curr_node_B.data:
+                if result == None:
                     result = curr_node_A.data
-                    return result
-                else:
-                    curr_node_A = curr_node_A.next
+            elif result != None:
+                result = None
+
+            curr_node_A = curr_node_A.next
             curr_node_B = curr_node_B.next
 
-    else:
-        curr_node_A = headA
-        while curr_node_A:
-            curr_node_B = headB
-            while curr_node_B:
-                if curr_node_A.data == curr_node_B.data:
-                    result = curr_node_A.data
-                    return result
-                else:
-                    curr_node_B = curr_node_B.next
-            curr_node_A = curr_node_A.next
+    return result
