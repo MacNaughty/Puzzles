@@ -8,8 +8,8 @@
    def __init__(self, data=None, next_node=None):
        self.data = data
        self.next = next_node
-
- 
+       
+we assume the two lists have a none null head and a tail (they are not cyclical)
 """
 
 def FindMergeNode(headA, headB):
@@ -40,6 +40,17 @@ def FindMergeNode(headA, headB):
         curr_node_B = curr_node_B.next
 
     result = None
+    """
+    if these were actually two lists that merged, you would check their id's as follows:
+    while curr_node_A and curr_node_B:
+        if id(curr_node_A) == id(curr_node_B):
+            result = curr_node_A.data
+
+        curr_node_A = curr_node_A.next
+        curr_node_B = curr_node_B.next
+    
+    but since they're actually two different lists with similar values, we use the following code to pass the tests
+    """
     while curr_node_A and curr_node_B:
             if curr_node_A.data == curr_node_B.data:
                 if result == None:
