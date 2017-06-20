@@ -65,32 +65,18 @@ def SortedInsert(head, data):
 
 
 
-
-
-
-
-
 def Reverse(head):
-    if not head.next:
+    if not head or not head.next or not head.next.next:
         return head
 
-    # if the list has one element, then it is at least None->element->None
-    #   so we now check for one element, else return head, which would be None
-    if not head.next.next:
-        return head
-
-    prev_node = head.next
-    curr_node = head.next.next
-    prev_node.next = None
+    prev_node = None
+    curr_node = head
     while curr_node:
         next_node = curr_node.next
-        prev_node.prev = curr_node
         curr_node.next = prev_node
+        curr_node.prev = next_node
         prev_node = curr_node
         curr_node = next_node
-
-    # attach the head to where the tail of the list was
-    prev_node.prev = None
 
     return prev_node
 
