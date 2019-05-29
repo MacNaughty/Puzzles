@@ -1,0 +1,33 @@
+<?php
+
+// Complete the miniMaxSum function below.
+function miniMaxSum($arr) {
+    $min = $arr[0];
+    $max = $arr[0];
+    foreach($arr as &$value) {
+        if ($min > $value) {
+            $min = $value;
+        }
+        if ($max < $value) {
+            $max = $value;
+        }
+    }
+
+    $sum = 0;
+    foreach($arr as &$value) {
+        $sum = $sum + $value;
+    }
+
+    echo ($sum - $max) . " " . ($sum - $min);
+
+}
+
+$stdin = fopen("php://stdin", "r");
+
+fscanf($stdin, "%[^\n]", $arr_temp);
+
+$arr = array_map('intval', preg_split('/ /', $arr_temp, -1, PREG_SPLIT_NO_EMPTY));
+
+miniMaxSum($arr);
+
+fclose($stdin);
