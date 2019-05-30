@@ -1,0 +1,54 @@
+<?php
+
+// Complete the kangaroo function below.
+
+
+
+
+function kangaroo($x1, $v1, $x2, $v2) {
+    $result = "NO";
+    $starting_position_of_kangaroo_1 = $x1;
+    $starting_position_of_kangaroo_2 = $x2;
+    $distance_between_kangaroos = 0;
+
+    if ($starting_position_of_kangaroo_1 == $starting_position_of_kangaroo_2) {
+        $result = "YES";
+    } elseif ($v1 > $v2) {
+        if ($starting_position_of_kangaroo_1 > $starting_position_of_kangaroo_2 ) {
+            $result = "NO";
+        } else {
+            $distance_between_kangaroos = ($starting_position_of_kangaroo_2 - $starting_position_of_kangaroo_1);
+        while ($distance_between_kangaroos > 0) {
+            $distance_between_kangaroos = $distance_between_kangaroos - ($v1 - $v2);
+        }
+        if ($distance_between_kangaroos == 0) {
+            $result = "YES";
+        }
+        }
+    }
+
+    return $result;
+
+}
+
+$fptr = fopen(getenv("OUTPUT_PATH"), "w");
+
+$stdin = fopen("php://stdin", "r");
+
+fscanf($stdin, "%[^\n]", $x1V1X2V2_temp);
+$x1V1X2V2 = explode(' ', $x1V1X2V2_temp);
+
+$x1 = intval($x1V1X2V2[0]);
+
+$v1 = intval($x1V1X2V2[1]);
+
+$x2 = intval($x1V1X2V2[2]);
+
+$v2 = intval($x1V1X2V2[3]);
+
+$result = kangaroo($x1, $v1, $x2, $v2);
+
+fwrite($fptr, $result . "\n");
+
+fclose($stdin);
+fclose($fptr);
