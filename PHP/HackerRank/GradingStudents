@@ -1,0 +1,41 @@
+<?php
+
+/*
+ * Complete the gradingStudents function below.
+ */
+function gradingStudents($grades) {
+    $final_grades = [];
+    foreach($grades as &$single_grade) {
+        $round_up_by = 0;
+
+        if ($single_grade >= 38) {
+        if (($single_grade % 5) == 3) {
+            $single_grade = $single_grade + 2;
+        } elseif (($single_grade % 5) == 4) {
+            $single_grade = $single_grade + 1;
+        }
+        }
+        array_push($final_grades, $single_grade);
+        }
+    return $final_grades;
+}
+
+$fptr = fopen(getenv("OUTPUT_PATH"), "w");
+
+$__fp = fopen("php://stdin", "r");
+
+fscanf($__fp, "%d\n", $n);
+
+$grades = array();
+
+for ($grades_itr = 0; $grades_itr < $n; $grades_itr++) {
+    fscanf($__fp, "%d\n", $grades_item);
+    $grades[] = $grades_item;
+}
+
+$result = gradingStudents($grades);
+
+fwrite($fptr, implode("\n", $result) . "\n");
+
+fclose($__fp);
+fclose($fptr);
