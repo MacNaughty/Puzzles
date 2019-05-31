@@ -1,0 +1,39 @@
+<?php
+
+// Complete the breakingRecords function below.
+function breakingRecords($scores) {
+    $min_score = $scores[0];
+    $times_min_record_broken = 0;
+    $max_score = $scores[0];
+    $times_max_record_broken = 0;
+
+    for ($n = 1; $n < sizeof($scores); $n++) {
+        if ($min_score > $scores[$n]) {
+            $min_score = $scores[$n];
+            $times_min_record_broken++;
+        }
+        if ($max_score < $scores[$n]) {
+            $max_score = $scores[$n];a
+            $times_max_record_broken++;
+        }
+    }
+
+    echo($times_max_record_broken . " " . $times_min_record_broken);
+}
+
+$fptr = fopen(getenv("OUTPUT_PATH"), "w");
+
+$stdin = fopen("php://stdin", "r");
+
+fscanf($stdin, "%d\n", $n);
+
+fscanf($stdin, "%[^\n]", $scores_temp);
+
+$scores = array_map('intval', preg_split('/ /', $scores_temp, -1, PREG_SPLIT_NO_EMPTY));
+
+$result = breakingRecords($scores);
+
+fwrite($fptr, implode(" ", $result) . "\n");
+
+fclose($stdin);
+fclose($fptr);
