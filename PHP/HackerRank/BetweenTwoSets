@@ -1,0 +1,57 @@
+<?php
+
+/*
+ * Complete the getTotalX function below.
+ */
+function getTotalX($a, $b) {
+    $array_1 = $a;
+    $array_1_largest_element = max($array_1);
+    //$element_1_array_1 = $a[0];
+
+    $array_2 = $b;
+    $array_2_smallest_element = min($array_2);
+    $element_1_array_2 = $b[0];
+
+
+    // first check to see if the largest element of $array_1 is a dividend of all elements in array_1
+    foreach($array_1 as &$array_1_element) {
+        if (($array_1_largest_element % $array_1_element) != 0) {
+            return "find a bigger dividend";
+        } else {
+            $n=1;
+            while($n*$array_1_largest_element < $array_2_smallest_element) {
+                $n++;
+            }
+        }
+    }
+
+    return ($n - 1);
+
+    
+}
+
+$fptr = fopen(getenv("OUTPUT_PATH"), "w");
+
+$__fp = fopen("php://stdin", "r");
+
+fscanf($__fp, "%[^\n]", $nm_temp);
+$nm = explode(' ', $nm_temp);
+
+$n = intval($nm[0]);
+
+$m = intval($nm[1]);
+
+fscanf($__fp, "%[^\n]", $a_temp);
+
+$a = array_map('intval', preg_split('/ /', $a_temp, -1, PREG_SPLIT_NO_EMPTY));
+
+fscanf($__fp, "%[^\n]", $b_temp);
+
+$b = array_map('intval', preg_split('/ /', $b_temp, -1, PREG_SPLIT_NO_EMPTY));
+
+$total = getTotalX($a, $b);
+
+fwrite($fptr, $total . "\n");
+
+fclose($__fp);
+fclose($fptr);
