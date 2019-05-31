@@ -13,12 +13,12 @@ function breakingRecords($scores) {
             $times_min_record_broken++;
         }
         if ($max_score < $scores[$n]) {
-            $max_score = $scores[$n];a
+            $max_score = $scores[$n];
             $times_max_record_broken++;
         }
     }
 
-    echo($times_max_record_broken . " " . $times_min_record_broken);
+    return array($times_max_record_broken, $times_min_record_broken);
 }
 
 $fptr = fopen(getenv("OUTPUT_PATH"), "w");
