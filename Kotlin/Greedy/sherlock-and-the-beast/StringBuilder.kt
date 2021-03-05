@@ -17,8 +17,6 @@ fun decentNumber(n: Int): Unit {
         for (i in 1..dividend) {
             stringBuilder.append("555")
         }
-        println(stringBuilder.toString())
-        return
     } else if (remainderThree == 1) {
         // All 5's, other than the end: 
         // subtract 3 "555"'s (representing 9) and add 2 "33333" (representing 10) so difference is congruent to remainder (9 - 10) = 1 mod(3)
@@ -26,8 +24,6 @@ fun decentNumber(n: Int): Unit {
             stringBuilder.append("555")
         }
         stringBuilder.append("3333333333")
-        println(stringBuilder.toString())
-        return
     } else {
         // (remainderThree == 2)
         // All 5's, other than the end: 
@@ -36,7 +32,7 @@ fun decentNumber(n: Int): Unit {
             stringBuilder.append("555")
         }
         stringBuilder.append("33333")
-        println(stringBuilder.toString())
-        return
     }
+    
+    println(stringBuilder.toString())
 }
