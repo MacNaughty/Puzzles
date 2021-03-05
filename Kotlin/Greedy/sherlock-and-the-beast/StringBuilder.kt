@@ -13,14 +13,15 @@ fun decentNumber(n: Int): Unit {
     
     val stringBuilder = StringBuilder()
     if (remainderThree == 0) {
-        // We can simply use all 5's, added in triplets
+        // We can simply use all 5's, added in triplets for efficiency
         for (i in 1..dividend) {
             stringBuilder.append("555")
         }
         println(stringBuilder.toString())
         return
     } else if (remainderThree == 1) {
-      
+        // All 5's, other than the end: 
+        // subtract 3 "555"'s (representing 9) and add 2 "33333" (representing 10) so difference is congruent to remainder (9 - 10) = 1 mod(3)
         for (i in 1..(dividend - 3)) {
             stringBuilder.append("555")
         }
@@ -29,6 +30,8 @@ fun decentNumber(n: Int): Unit {
         return
     } else {
         // (remainderThree == 2)
+        // All 5's, other than the end: 
+        // subtract 2 "555"'s (representing 6) and add "33333" (representing 5) so difference is congruent to remainder -1 = (5 - 6) = 2  mod(3)
         for (i in 1..(dividend - 1)) {
             stringBuilder.append("555")
         }
