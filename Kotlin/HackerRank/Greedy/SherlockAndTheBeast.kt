@@ -17,8 +17,8 @@ using the same algorithm but a CharArray as the data structure collecting the re
 
 fun decentNumberCharArray(n: Int): Unit {
     // Having seen a similar problem in school, 
-    // For any integer m > 7, there exists integers x & y such that 5*x + 3*y = m
-    // 5 and 3 can be treated as special cases (included in the following base case)
+    // For any integer n > 7, there exist integers x & y such that 5*x + 3*y = m
+    // n = 5 and n = 3 can be treated as special cases (included in the following base case)
     when (n) {
         1, 2, 4, 7 -> {
             println(-1)
@@ -28,13 +28,18 @@ fun decentNumberCharArray(n: Int): Unit {
     
     val remainderThree = n.rem(3)
     
-    // For the largest decent number we want as many 5's as possible, it's simply a question of how many trailing (i.e. rightmost) 5's to replace with 3's
+    /*
+    For the largest decent number, we want as many 5's as possible: it's simply a question of how many trailing (i.e. right-most) 5's to replace with 3's
+    
+    So we'll initialize the CharArray with the desired result for (remainderThree == 0)
+    and replace the appropriate number of 5's with 3's, on the right hand side, if (remainderThree == 1) or (remainderThree == 2)
+    */
     val result = CharArray(n) { _ ->
         '5'
     }
 
     if (remainderThree == 1) {
-    // subtract 3 "555"s (representing 9) and add 2 "33333"s (representing 10) so difference is congruent to remainder (10 - 9) = 1  mod(3)
+        // subtract 3 "555"s (representing 9) and add 2 "33333"s (representing 10) so difference is congruent to remainder (10 - 9) = 1  mod(3)
         for (i in n-1 downTo n-10) {
             result[i] = '3'
         }
@@ -44,8 +49,6 @@ fun decentNumberCharArray(n: Int): Unit {
             result[i] = '3'
         }
     }
-    // We are finished, and can print the result, since the only remaining case is (remainderThree == 0), 
-    //   and the CharArray was initialized with the desired result for this case 
     
     println(String(result))
     
