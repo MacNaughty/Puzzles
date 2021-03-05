@@ -1,2 +1,1 @@
-# Hello_World
-HackerRank Problems
+Problem solving. Mainly from HackerRank and LeetCode
