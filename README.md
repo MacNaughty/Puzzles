@@ -1,4 +1,4 @@
-*Problem solving*
+Problem solving
 
 Practice to improve understanding of data structures & algorithms
 
