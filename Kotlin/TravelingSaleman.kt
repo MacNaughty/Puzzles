@@ -1,22 +1,20 @@
+import kotlin.math.pow
+import kotlin.math.sqrt
+
+// 'destinations' and 'stops' will be used interchangably
 fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array<IntArray> {
     if (destinations.isEmpty()) {
         return arrayOf(intArrayOf())
     }
 
     val destinationsSize = destinations.size
-    
-    // Originally used a set as the collection that tracked remaining stop indices, but current solution uses IntArray instead.
-    //    So allDestinationsIndexSet is currently not being used, but leaving it as a reminder because I think it has potential to be better
-    val allDestinationsIndexSet = Collections.unmodifiableSet(HashSet<Int>(destinationsSize).apply {
-        addAll(0 until destinationsSize)
-    })
 
-    // distancesBetweenAllPointsArray is a 2D Array of doubles
+    // distancesBetweenAllPointsArray is a 2D Array of doubles with size (destinationsSize^2 / 2)
     // for all pairs of indices (i, j) where 0 <= i < destinationsSize and 0 <= j < destinationsSize - i
-    // size (n^2 / 2)
+    //
     // for i > 0, distancesBetweenAllPointsArray[i][j] returns the distance between destinations[i-1] and destinations[j]
     // for i == 0 , distancesBetweenAllPointsArray[i][j] returns the distance between the origin and destinations[j]
-    val distancesBetweenAllPointsArray = Array<DoubleArray>(destinationsSize) { i ->
+    val distancesBetweenAllStopsArray = Array<DoubleArray>(destinationsSize) { i ->
         DoubleArray(destinationsSize - i) { j ->
             if (i == 0) {
                 val destination = destinations[j]
@@ -36,38 +34,39 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
     fun findDistanceBetweenStopsByIndex(firstDestinationIndex: Int, secondDestinationIndex: Int): Double {
         return if (firstDestinationIndex < secondDestinationIndex) {
             val firstIndex = firstDestinationIndex + 1
-            distancesBetweenAllPointsArray[firstIndex][secondDestinationIndex - firstIndex]
+            distancesBetweenAllStopsArray[firstIndex][secondDestinationIndex - firstIndex]
         } else {
             val firstIndex = secondDestinationIndex + 1
-            distancesBetweenAllPointsArray[firstIndex][firstDestinationIndex - firstIndex]
+            distancesBetweenAllStopsArray[firstIndex][firstDestinationIndex - firstIndex]
         }
     }
 
-    var optimalRouteByIndex = intArrayOf()
+    var optimalRouteIndexArray = intArrayOf()
     var optimalRouteSize = 0
     var optimalRouteDistance = maxDistance
 
     fun onNewOptimalRoute(newOptimalRoute: IntArray, newDistance: Double) {
-        optimalRouteByIndex = newOptimalRoute
+        optimalRouteIndexArray = newOptimalRoute
         optimalRouteSize = newOptimalRoute.size
         optimalRouteDistance = newDistance
     }
 
-    fun findBestRemainingRoute(
+
+    fun findOptimalRemainingRoute(
         currentRouteIndexArray: IntArray,
         currentRouteDistance: Double,
         lastStopDistanceFromOrigin: Double,
-        remainingStopIndexArray: IntArray
+        remainingStopsIndexArray: IntArray
     ) {
-        remainingStopIndexArray.forEach { nextStopIndex ->
+        remainingStopsIndexArray.forEach { nextStopIndex ->
             val currentRouteSize = currentRouteIndexArray.size
-            val nextStopDistanceFromOrigin = distancesBetweenAllPointsArray[0][nextStopIndex]
+            val nextStopDistanceFromOrigin = distancesBetweenAllStopsArray[0][nextStopIndex]
             val distanceBetweenLastStopAndNextStop = findDistanceBetweenStopsByIndex(currentRouteIndexArray.last(), nextStopIndex)
 
             val newRouteDistance =
                 currentRouteDistance - lastStopDistanceFromOrigin + nextStopDistanceFromOrigin + distanceBetweenLastStopAndNextStop
             if (newRouteDistance <= maxDistance) {
-                val newRouteByIndex = IntArray(currentRouteSize + 1) { i ->
+                val newRouteIndexArray = IntArray(currentRouteSize + 1) { i ->
                     if (i < currentRouteSize) {
                         currentRouteIndexArray[i]
                     } else {
@@ -75,29 +74,29 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
                     }
                 }
                 var hasIterationReachedNewIndex = false
-                val newRemainingStopIndices = IntArray(remainingStopIndexArray.size - 1) { i ->
+                val newRemainingStopIndexArray = IntArray(remainingStopsIndexArray.size - 1) { i ->
                     if (hasIterationReachedNewIndex) {
-                        remainingStopIndexArray[i+1]
+                        remainingStopsIndexArray[i+1]
                     } else {
-                        val currentStopIndex = remainingStopIndexArray[i]
+                        val currentStopIndex = remainingStopsIndexArray[i]
                         if (currentStopIndex != nextStopIndex) {
                             currentStopIndex
                         } else {
                             hasIterationReachedNewIndex = true
-                            remainingStopIndexArray[i+1]
+                            remainingStopsIndexArray[i+1]
                         }
                     }
                 }
 
-                if (newRemainingStopIndices.isNotEmpty()) {
-                    findBestRemainingRoute(
-                        newRouteByIndex,
+                if (newRemainingStopIndexArray.isNotEmpty()) {
+                    findOptimalRemainingRoute(
+                        newRouteIndexArray,
                         newRouteDistance,
                         nextStopDistanceFromOrigin,
-                        newRemainingStopIndices
+                        newRemainingStopIndexArray
                     )
                 } else if (optimalRouteSize < destinationsSize || newRouteDistance < optimalRouteDistance) {
-                    onNewOptimalRoute(newRouteByIndex, newRouteDistance)
+                    onNewOptimalRoute(newRouteIndexArray, newRouteDistance)
                 }
             } else if (optimalRouteSize < currentRouteSize) {
                 onNewOptimalRoute(currentRouteIndexArray, newRouteDistance)
@@ -107,20 +106,19 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
         }
     }
 
-
     for (i in 0 until destinationsSize) {
-        val startingPointDistanceFromOrigin = distancesBetweenAllPointsArray[0][i]
+        val startingPointDistanceFromOrigin = distancesBetweenAllStopsArray[0][i]
 
-        // Can probably be generalized
+        // If the distance from the origin to this point and back exceeds max distance, we have no need to try more routes
         if (startingPointDistanceFromOrigin * 2 > maxDistance) {
             continue
         }
 
-        val currentRouteByIndex = intArrayOf(i)
+        val currentRouteIndexArray = intArrayOf(i)
         var currentRouteDistance = startingPointDistanceFromOrigin * 2
 
-        // currentRouteIndicesRemaining is the relative complement of currentRouteByIndex, w.r.t. allDestinationsIndexSet
-        val remainingStopIndices = IntArray(destinationsSize - 1) { j ->
+        // remainingStopIndexArray is the relative complement of currentRouteIndexArray, w.r.t. (0 until destinationsSize)
+        val remainingStopIndexArray = IntArray(destinationsSize - 1) { j ->
             if (j < i) {
                 j
             } else {
@@ -128,16 +126,14 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
             }
         }
 
-        findBestRemainingRoute(currentRouteByIndex, currentRouteDistance, startingPointDistanceFromOrigin, remainingStopIndices)
-
+        findOptimalRemainingRoute(currentRouteIndexArray, currentRouteDistance, startingPointDistanceFromOrigin, remainingStopIndexArray)
     }
 
-    return if (optimalRouteByIndex.isEmpty()) {
-        arrayOf(optimalRouteByIndex)
+    return if (optimalRouteIndexArray.isEmpty()) {
+        arrayOf(optimalRouteIndexArray)
     } else {
-        Array<IntArray>(optimalRouteByIndex.size) { index ->
-            destinations[optimalRouteByIndex[index]]
+        Array<IntArray>(optimalRouteIndexArray.size) { index ->
+            destinations[optimalRouteIndexArray[index]]
         }
     }
-
 }
