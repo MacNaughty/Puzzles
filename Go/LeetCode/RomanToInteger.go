@@ -6,7 +6,16 @@ func main() {
 	fmt.Printf("Converted CML to %d", romanToInt("CML"))
 }
 
-func romanToInt(s string) int {
+
+
+
+
+
+
+
+
+// Solution 1: based off of quii tutorials (to make sure I understood it properly)
+func romanToInt1(s string) int {
 	stringLength := len(s)
 	result := 0
 
@@ -86,4 +95,76 @@ func searchDifferenceNumeralsGivenString(s string) int {
 		}
 	}
 	return 0
+}
+
+
+
+// Solution 2: Using maps instead of structs
+func romanToInt2(s string) int {
+
+	result := 0
+	stringLength := len(s)
+
+	for i := 0; i < stringLength; i++ {
+		currByte := s[i]
+		if i+1 < stringLength {
+			subtractiveNumeralValue := differenceNumerals[currByte][s[i+1]]
+			if subtractiveNumeralValue != 0 {
+				result += subtractiveNumeralValue
+				i++
+				continue
+			}
+		}
+
+		result += allSingleCharacters[currByte]
+
+	}
+
+	return result
+}
+
+var allSingleCharacters = map[byte]int{
+	'I': 1,
+	'V': 5,
+	'X': 10,
+	'L': 50,
+	'C': 100,
+	'D': 500,
+	'M': 1000,
+}
+
+var differenceNumerals = map[byte]map[byte]int{
+	'I': {
+		'V': 4,
+		'X': 9,
+	},
+	'X': {
+		'L': 40,
+		'C': 90,
+	},
+	'C': {
+		'D': 400,
+		'M': 900,
+	},
+}
+
+
+// Solution 3: best solution; single map iterating RTL to determine subtractive numerals
+func romanToInt3(s string) int {
+	stringLength := len(s)
+	sum := 0
+	lastVal := 0
+	romanMap := map[byte]int{'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
+
+	for i := stringLength - 1; i >= 0; i-- {
+		val := romanMap[s[i]]
+		if val >= lastVal {
+			sum += val
+		} else {
+			sum -= val
+		}
+		lastVal = val
+	}
+	
+	return sum
 }
