@@ -7,14 +7,7 @@ func main() {
 }
 
 
-
-
-
-
-
-
-
-// Solution 1: based off of quii tutorials (to make sure I understood it properly)
+// Solution 1: romanNumeral struct; based off of quii tutorials; to test understanding
 func romanToInt1(s string) int {
 	stringLength := len(s)
 	result := 0
@@ -115,11 +108,8 @@ func romanToInt2(s string) int {
 				continue
 			}
 		}
-
 		result += allSingleCharacters[currByte]
-
 	}
-
 	return result
 }
 
