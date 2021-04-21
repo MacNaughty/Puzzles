@@ -16,7 +16,7 @@ func lengthOfLastWord(s string) int {
 }
 
 
-// splitting string and taking last element (too much work at the beginning)
+// splitting string and taking last element
 func lengthOfLastWord(s string) int {
 	wordSlice := strings.Split(s, " ")
 
