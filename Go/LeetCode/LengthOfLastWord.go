@@ -1,3 +1,20 @@
+func lengthOfLastWord(s string) int {
+	acc := 0
+	lastIndex := len(s) - 1
+
+	for i := lastIndex; i >= 0; i-- {
+		if s[i] != ' ' {
+			acc++
+		} else {
+			if acc != 0 {
+				break
+			}
+		}
+	}
+
+	return acc
+}
+
 
 // splitting string and taking last element (too much work at the beginning)
 func lengthOfLastWord(s string) int {
