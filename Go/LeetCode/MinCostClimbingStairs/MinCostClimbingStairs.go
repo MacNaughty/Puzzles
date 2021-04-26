@@ -21,7 +21,7 @@ func min(a, b int) int {
 }
 
 
-// Solution 2:
+// Solution 3:
 // Similar idea as solution 1, but uses far less memory because it's caching the minimum number of steps (2) necessary to calculate the cost of the next one
 // Time complexity O(n), space complexity O(1)
 func minCostClimbingStairs(cost []int) int {
@@ -39,7 +39,6 @@ func minCostClimbingStairs(cost []int) int {
 
 	return min(even, odd)
 }
-
 
 
 // Solution 1:
