@@ -1,4 +1,4 @@
-https://leetcode.com/problems/climbing-stairs/submissions/
+// https://leetcode.com/problems/climbing-stairs/submissions/
 
 // Solved the problem by hand, realized it was equivalent to the fibbonaci sequence
 func climbStairs(n int) int {
