@@ -25,13 +25,3 @@ class Solution:
             return result*-1
         else:
             return result
-
-    def reverse2(self, x: int) -> int:
-        temp = str(abs(x))
-        retval = int(temp[::-1])
-        if (retval.bit_length() > 31):
-            return 0
-        if x < 0:
-            return -1 * retval
-        else:
-            return retval
