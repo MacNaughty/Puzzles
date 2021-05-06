@@ -13,11 +13,11 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
         addAll(0 until destinationsSize)
     })
 
-    // distancesBetweenAllPointsArray is a 2D Array of doubles with size (destinationsSize^2 / 2)
+    
+    // distancesBetweenAllStopsArray is a 2D Array of doubles with size (destinationsSize^2 / 2)
     // valid indices are pairs (i, j) where 0 <= i < destinationsSize and 0 <= j < destinationsSize - i
-
-    // for i == 0, distancesBetweenAllPointsArray[i][j] returns the distance between the origin and destinations[j]
-    // for i > 0, distancesBetweenAllPointsArray[i][j] returns the distance between destinations[i-1] and destinations[j]
+    //      for i == 0, distancesBetweenAllStopsArray[i][j] returns the distance between the origin and destinations[j]
+    //      for i > 0, distancesBetweenAllStopsArray[i][j] returns the distance between destinations[i-1] and destinations[j]
     val distancesBetweenAllStopsArray = Array<DoubleArray>(destinationsSize) { i ->
         DoubleArray(destinationsSize - i) { j ->
             if (i == 0) {
