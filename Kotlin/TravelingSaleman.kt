@@ -49,10 +49,13 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
     var optimalRouteSize = 0
     var optimalRouteDistance = maxDistance
 
-    fun onNewOptimalRoute(newOptimalRoute: IntArray, newRouteSize: Int, newDistance: Double) {
-        optimalRouteIndexArray = newOptimalRoute
-        optimalRouteSize = newRouteSize
-        optimalRouteDistance = newDistance
+    fun updateOptimalRouteIfNeeded(newRoute: IntArray, newDistance: Double) {
+        val newRouteSize = newRoute.size
+        if (optimalRouteSize < newRouteSize || ((optimalRouteSize == newRouteSize) && (newDistance < optimalRouteDistance))) {
+            optimalRouteIndexArray = newRoute
+            optimalRouteSize = newRouteSize
+            optimalRouteDistance = newDistance
+        }
     }
 
     fun findOptimalRemainingRoute(
@@ -62,28 +65,24 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
         remainingStopsIndexSet: Set<Int>
     ) {
         remainingStopsIndexSet.forEach { nextStopIndex ->
-            val currentRouteSize = currentRouteIndexArray.size
+
             val nextStopDistanceFromOrigin = distancesBetweenAllStopsArray[0][nextStopIndex]
             val distanceBetweenLastStopAndNextStop = findDistanceBetweenStopsByIndex(currentRouteIndexArray.last(), nextStopIndex)
 
             val newRouteDistance = currentRouteDistance - lastStopDistanceFromOrigin + distanceBetweenLastStopAndNextStop + nextStopDistanceFromOrigin
             if (newRouteDistance <= maxDistance) {
                 val newRouteIndexArray = currentRouteIndexArray + nextStopIndex
-                val newRouteSize = newRouteIndexArray.size
-                val newRemainingStopIndexArray = remainingStopsIndexSet.minus(nextStopIndex)
+                updateOptimalRouteIfNeeded(newRouteIndexArray, newRouteDistance)
+                val newRemainingStopIndexSet = remainingStopsIndexSet.minus(nextStopIndex)
 
-                if (newRemainingStopIndexArray.isNotEmpty()) {
+                if (newRemainingStopIndexSet.isNotEmpty()) {
                     findOptimalRemainingRoute(
                         newRouteIndexArray,
                         newRouteDistance,
                         nextStopDistanceFromOrigin,
-                        newRemainingStopIndexArray
+                        newRemainingStopIndexSet
                     )
-                } else if (optimalRouteSize <newRouteSize || ((optimalRouteSize == newRouteSize) && (newRouteDistance < optimalRouteDistance))) {
-                    onNewOptimalRoute(newRouteIndexArray, newRouteSize, newRouteDistance)
                 }
-            } else if (optimalRouteSize < destinationsSize || ((optimalRouteSize == currentRouteSize) && (newRouteDistance < optimalRouteDistance))) {
-                onNewOptimalRoute(currentRouteIndexArray, currentRouteSize, newRouteDistance)
             }
         }
     }
