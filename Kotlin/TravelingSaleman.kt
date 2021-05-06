@@ -49,9 +49,9 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
     var optimalRouteSize = 0
     var optimalRouteDistance = maxDistance
 
-    fun onNewOptimalRoute(newOptimalRoute: IntArray, newDistance: Double) {
+    fun onNewOptimalRoute(newOptimalRoute: IntArray, newRouteSize: Int, newDistance: Double) {
         optimalRouteIndexArray = newOptimalRoute
-        optimalRouteSize = newOptimalRoute.size
+        optimalRouteSize = newRouteSize
         optimalRouteDistance = newDistance
     }
 
@@ -69,6 +69,7 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
             val newRouteDistance = currentRouteDistance - lastStopDistanceFromOrigin + distanceBetweenLastStopAndNextStop + nextStopDistanceFromOrigin
             if (newRouteDistance <= maxDistance) {
                 val newRouteIndexArray = currentRouteIndexArray + nextStopIndex
+                val newRouteSize = newRouteIndexArray.size
                 val newRemainingStopIndexArray = remainingStopsIndexSet.minus(nextStopIndex)
 
                 if (newRemainingStopIndexArray.isNotEmpty()) {
@@ -78,11 +79,11 @@ fun travelingSalesman(destinations: Array<IntArray>, maxDistance: Double): Array
                         nextStopDistanceFromOrigin,
                         newRemainingStopIndexArray
                     )
-                } else if (optimalRouteSize < destinationsSize || ((optimalRouteSize == currentRouteSize) && (newRouteDistance < optimalRouteDistance))) {
-                    onNewOptimalRoute(newRouteIndexArray, newRouteDistance)
+                } else if (optimalRouteSize <newRouteSize || ((optimalRouteSize == newRouteSize) && (newRouteDistance < optimalRouteDistance))) {
+                    onNewOptimalRoute(newRouteIndexArray, newRouteSize, newRouteDistance)
                 }
             } else if (optimalRouteSize < destinationsSize || ((optimalRouteSize == currentRouteSize) && (newRouteDistance < optimalRouteDistance))) {
-                onNewOptimalRoute(currentRouteIndexArray, newRouteDistance)
+                onNewOptimalRoute(currentRouteIndexArray, currentRouteSize, newRouteDistance)
             }
         }
     }
