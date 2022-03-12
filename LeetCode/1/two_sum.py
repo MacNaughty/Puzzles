@@ -1,7 +1,7 @@
 class Solution:
   
   
-# solutiotion 1
+# solution 1
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         cache = {1: 1}
         for i in range(len(nums)):
