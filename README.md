@@ -1,5 +1,7 @@
-Problem solving
+# Data Structures & Algorithms
 
-Practice to improve understanding of data structures & algorithms
+Mostly from Hackerrank and Leetcode
 
-Mainly from HackerRank and LeetCode
+Includes some of the first code I ever wrote up until today
+
+Doing my best to organize it better
