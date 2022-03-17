@@ -4,4 +4,4 @@ Mostly solving problems on [Hackerrank](https://github.com/MacNaughty/Puzzles/tr
 
 Includes some of the first code I ever wrote
 
-Doing my best to organize it better
+Reorganizing it, starting with Leetcode
