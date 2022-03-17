@@ -3,3 +3,5 @@
 | [1. Two Sum](https://github.com/MacNaughty/Puzzles/tree/master/LeetCode/1) | [All Solutions](https://leetcode.com/problems/two-sum/) | [Python](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/1/two_sum.py) |
 | [2. Adding Two Numbers](https://leetcode.com/problems/add-two-numbers/)    | [All Solutions](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/2) |  [Python](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/2/solution.py)  |
 | [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)    | [All Solutions](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/3) | [Python](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/3/length_of_longest_substring.py), [Kotlin](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/3/LengthOfLongestSubstring.kt)   |
+| [3. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)    | [All Solutions](https://github.com/MacNaughty/Puzzles/blob/master/LeetCode/4) |    |
+
