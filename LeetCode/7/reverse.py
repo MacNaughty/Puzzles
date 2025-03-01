@@ -3,13 +3,13 @@ class Solution:
         if x == 0:
             return 0
 
-        is_negative = True
         if x < 0:
             x *= -1
+            is_negative = True
         else:
             is_negative = False
 
-        max_32 = int("0x80000000", 16) if is_negative else int("0x7fffffff", 16)
+        max_32 = 0x80000000 if is_negative else 0x7fffffff
 
         result = 0
         while x > 0:

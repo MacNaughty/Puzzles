@@ -16,6 +16,7 @@ class Solution(object):
 
         s_list = list(s)
 
+        zig_vertical_index_set = {0, numRows - 1}
         factor = 2 * (numRows - 1)
 
         res = [None]*len_s
@@ -25,12 +26,12 @@ class Solution(object):
         while row_num < numRows:
             col_num = 0
 
-            while row_num + col_num * factor < len_s:
-                res[i] = s_list[row_num + (col_num * factor)]
+            while (col_num * factor) + row_num < len_s:
+                res[i] = s_list[(col_num * factor) + row_num]
                 i += 1
 
-                if row_num not in {0, numRows - 1} and (factor * (col_num+1)) - row_num < len_s:
-                    res[i] = s_list[(factor * (col_num+1)) - row_num]
+                if row_num not in zig_vertical_index_set and ((col_num+1) * factor) - row_num < len_s:
+                    res[i] = s_list[((col_num+1) * factor) - row_num]
                     i += 1
 
                 col_num += 1
