@@ -1,3 +1,7 @@
+package leetcode
+
+import "strings"
+
 func longestCommonPrefix(strs []string) string {
 	strsLength := len(strs)
 

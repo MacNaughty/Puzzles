@@ -1,35 +1,34 @@
-package main
+package leetcode
 
-import "fmt"
+//import "fmt"
 
-func main() {
-	fmt.Printf("Converted CML to %d", romanToInt("CML"))
-}
-
+//func main() {
+//	fmt.Printf("Converted CML to %d", romanToInt("CML"))
+//}
 
 // Solution 1: romanNumeral struct; based off of quii tutorials; to test understanding
-func romanToInt1(s string) int {
-	stringLength := len(s)
-	result := 0
-
-	for i := 0; i < stringLength; i++ {
-		currentByte := s[i]
-		if i+1 < stringLength {
-			if isSubtractiveNumeral(currentByte) {
-				potentialDifferenceNumeral := s[i : i+2]
-				differenceNumeralResult := searchDifferenceNumeralsGivenString(potentialDifferenceNumeral)
-				if differenceNumeralResult != 0 {
-					result += differenceNumeralResult
-					i++
-					continue
-				}
-			}
-		}
-		result += symbolToInt(currentByte)
-	}
-
-	return result
-}
+//func romanToInt1(s string) int {
+//	stringLength := len(s)
+//	result := 0
+//
+//	for i := 0; i < stringLength; i++ {
+//		currentByte := s[i]
+//		if i+1 < stringLength {
+//			if isSubtractiveNumeral(currentByte) {
+//				potentialDifferenceNumeral := s[i : i+2]
+//				differenceNumeralResult := searchDifferenceNumeralsGivenString(potentialDifferenceNumeral)
+//				if differenceNumeralResult != 0 {
+//					result += differenceNumeralResult
+//					i++
+//					continue
+//				}
+//			}
+//		}
+//		result += symbolToInt(currentByte)
+//	}
+//
+//	return result
+//}
 
 type romanNumeral struct {
 	Symbol string
@@ -72,25 +71,23 @@ func isSubtractiveNumeral(b byte) bool {
 	return false
 }
 
-var differenceNumerals = RomanNumerals{
-	{"IV", 4},
-	{"IX", 9},
-	{"XL", 40},
-	{"XC", 90},
-	{"CD", 400},
-	{"CM", 900},
-}
+//var differenceNumerals = RomanNumerals{
+//	{"IV", 4},
+//	{"IX", 9},
+//	{"XL", 40},
+//	{"XC", 90},
+//	{"CD", 400},
+//	{"CM", 900},
+//}
 
-func searchDifferenceNumeralsGivenString(s string) int {
-	for _, rN := range differenceNumerals {
-		if rN.Symbol == s {
-			return rN.Value
-		}
-	}
-	return 0
-}
-
-
+//func searchDifferenceNumeralsGivenString(s string) int {
+//	for _, rN := range differenceNumerals {
+//		if rN.Symbol == s {
+//			return rN.Value
+//		}
+//	}
+//	return 0
+//}
 
 // Solution 2: Using maps instead of structs
 func romanToInt2(s string) int {
@@ -138,13 +135,12 @@ var differenceNumerals = map[byte]map[byte]int{
 	},
 }
 
-
 // Solution 3: best solution; single map iterating RTL to determine subtractive numerals
 func romanToInt3(s string) int {
 	stringLength := len(s)
 	sum := 0
 	lastVal := 0
-	romanMap := map[byte]int{'I':1, 'V':5, 'X':10, 'L':50, 'C':100, 'D':500, 'M':1000}
+	romanMap := map[byte]int{'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
 
 	for i := stringLength - 1; i >= 0; i-- {
 		val := romanMap[s[i]]
@@ -155,6 +151,6 @@ func romanToInt3(s string) int {
 		}
 		lastVal = val
 	}
-	
+
 	return sum
 }

@@ -1,4 +1,6 @@
-https://leetcode.com/problems/remove-element/submissions/
+package leetcode
+
+//https://leetcode.com/problems/remove-element/submissions/
 
 func removeElement(nums []int, val int) int {
 	i := 0

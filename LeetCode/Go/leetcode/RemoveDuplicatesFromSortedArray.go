@@ -1,3 +1,5 @@
+package leetcode
+
 func removeDuplicates(nums []int) int {
 	numsLength := len(nums)
 
