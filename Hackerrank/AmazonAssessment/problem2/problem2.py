@@ -14,50 +14,50 @@ from heapq import heappop, heappush
 #
 #     return min_size
 
-# def getMinimalCost(size: list[int], cost: list[int])->int:
-#     # initialize global size dict
-#     size_dict = defaultdict(set)
-#     for i in range(len(size)):
-#         size_dict[size[i]].add(i)
-#
-#     # initialize global duplicate dict
-#     dup_dict = defaultdict(set)
-#     for temp_size, indices in size_dict.items():
-#         if len(indices) > 1:
-#             dup_dict[temp_size].update(indices)
-#
-#
-#     total_cost = 0
-#     while len(dup_dict):
-#         min_size_dup = float('inf')
-#         for dup_size in dup_dict.keys():
-#             if dup_size < min_size_dup:
-#                 min_size_dup = dup_size
-#
-#         indices = dup_dict[min_size_dup]
-#         while len(indices) > 1:
-#             min_cost = float('inf')
-#             min_i = -1
-#             for i in indices:
-#                 if cost[i] < min_cost:
-#                     min_cost = cost[i]
-#                     min_i = i
-#
-#             size[min_i] += 1
-#             new_size = size[min_i]
-#             total_cost += cost[min_i]
-#
-#             indices.remove(min_i)
-#             size_dict[new_size].add(min_i)
-#             size_dict[min_size_dup].remove(min_i)
-#
-#             if len(size_dict[new_size]) > 1:
-#                 dup_dict[new_size].update(size_dict[new_size])
-#
-#             if len(dup_dict[min_size_dup]) == 1:
-#                 del dup_dict[min_size_dup]
-#
-#     return total_cost
+def getMinimalCost(size: list[int], cost: list[int])->int:
+    # initialize global size dict
+    size_dict = defaultdict(set)
+    for i in range(len(size)):
+        size_dict[size[i]].add(i)
+
+    # initialize global duplicate dict
+    dup_dict = defaultdict(set)
+    for temp_size, indices in size_dict.items():
+        if len(indices) > 1:
+            dup_dict[temp_size].update(indices)
+
+
+    total_cost = 0
+    while len(dup_dict):
+        min_size_dup = float('inf')
+        for dup_size in dup_dict.keys():
+            if dup_size < min_size_dup:
+                min_size_dup = dup_size
+
+        indices = dup_dict[min_size_dup]
+        while len(indices) > 1:
+            min_cost = float('inf')
+            min_i = -1
+            for i in indices:
+                if cost[i] < min_cost:
+                    min_cost = cost[i]
+                    min_i = i
+
+            size[min_i] += 1
+            new_size = size[min_i]
+            total_cost += cost[min_i]
+
+            indices.remove(min_i)
+            size_dict[new_size].add(min_i)
+            size_dict[min_size_dup].remove(min_i)
+
+            if len(size_dict[new_size]) > 1:
+                dup_dict[new_size].update(size_dict[new_size])
+
+            if len(dup_dict[min_size_dup]) == 1:
+                del dup_dict[min_size_dup]
+
+    return total_cost
 
 
 
