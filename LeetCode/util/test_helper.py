@@ -38,6 +38,9 @@ class MyTestCaseHelper(unittest.TestCase):
         for i in range(len(expected_list)):
             self.assertEqual(expected_list[i], actual_list[i])
 
+    def assert_list_is_one_of(self, expected_list: list[list], actual: list):
+        self.assertIn(actual, expected_list)
+
     def tree_to_list(self, root):
         res = [root.val]
 
@@ -99,6 +102,20 @@ class MyTestCaseHelper(unittest.TestCase):
             curr = curr.next
 
         return res
+
+    def array_to_linked_list(self, arr: list[int]) -> ListNode|None:
+        if not arr:
+            return None
+
+        head = ListNode(arr[0])
+        i = 1
+        curr = head
+        while i < len(arr):
+            curr.next = ListNode(arr[i])
+            curr = curr.next
+            i += 1
+
+        return head
 
 
     # def test_something(self):
