@@ -1,5 +1,5 @@
 import unittest
-from collections import deque
+from collections import deque, Counter
 
 
 # Definition for singly-linked list.
@@ -83,6 +83,31 @@ class MyTestCaseHelper(unittest.TestCase):
 
         return root
 
+    # --- Custom Assertion Function ---
+    def assert_unordered_list_equal(self, list_a: list, list_b: list, msg: str = None):
+        """
+        Asserts that two lists contain the exact same elements with the same
+        frequencies, regardless of the order of the elements.
+
+        This function uses collections.Counter for a robust comparison of multisets.
+        """
+        counter_a = Counter(list_a)
+        counter_b = Counter(list_b)
+
+        # Check if the counts of all elements match
+        if counter_a != counter_b:
+            # If they don't match, raise an AssertionError with a descriptive message
+            if msg is None:
+                msg = (
+                    f"Lists do not contain the same elements (independent of order).\n"
+                    f"List A Content (Multiset): {counter_a}\n"
+                    f"List B Content (Multiset): {counter_b}"
+                )
+            raise AssertionError(msg)
+
+        # If they match, the assertion passes implicitly (by not raising an error)
+        return True
+
     def assert_two_d_lists_equal(self, expected, actual):
         self.assertEqual(len(expected), len(actual))
 
@@ -116,10 +141,6 @@ class MyTestCaseHelper(unittest.TestCase):
             i += 1
 
         return head
-
-
-    # def test_something(self):
-    #     self.assertEqual(True, False)  # add assertion here
 
 
 if __name__ == '__main__':
