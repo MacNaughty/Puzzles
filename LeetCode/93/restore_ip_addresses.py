@@ -4,47 +4,47 @@ from collections import defaultdict
 from util.test_helper import MyTestCaseHelper
 
 class Solution:
-    def is_valid_part(self, substr: str):
-        """Assumes: len(substr) <= 3"""
-
-
-        if len(substr) > 1 and substr[0] == '0':
-            return False
-
-        return 0 <= int(substr) <= 255
 
     def restoreIpAddresses(self, s: str) -> list[str]:
-        # this can be solved as subproblems, recursively
-        if len(s) > 12:
+        len_s = len(s)
+        if not 4 <= len_s <= 12:
             return []
 
-        res = []
+        def is_valid_part(substr: str) -> bool:
+            """
+            Checks if a string slice is a valid IP segment.
+              - must not have leading zeros unless it is the single digit '0'
+              - must be between 0 and 255
+            ASSUMES: len(substr) <= 3 (due to loop range)
+            """
+            if len(substr) > 1 and substr[0] == '0':
+                return False
 
-        first = defaultdict(list)
-        for j in range(1, 4):
-            if self.is_valid_part(s[:j]):
-                first[j].append(s[:j])
+            return 0 <= int(substr) <= 255
 
-        second = defaultdict(list)
-        for i, first in first.items():
-            for j in range(1, 4):
-                if self.is_valid_part(s[i:i+j]):
-                    second[i+j].append(first + [s[i:i + j]])
+        def get_next_stage_parts(current_parts, max_remaining_len):
+            next_parts = defaultdict(list)
 
-        third = defaultdict(list)
-        for i, second_list in second.items():
-            for j in range(1, 4):
-                if self.is_valid_part(s[i:i+j]):
-                    for elem in second_list:
-                        third[i+j].append(elem + [s[i:i+j]])
+            for i, partial_addresses in current_parts.items():
+                for j in range(1, 4):
 
-        for i, third_list in third.items():
-            for j in range(1, 4):
-                if i + j == len(s) and self.is_valid_part(s[i:i + j]):
-                    for elem in third_list:
-                        res.append('.'.join(elem + [s[i:i + j]]))
+                    new_i = i + j
+                    remaining_len = len_s - new_i
+                    if not 0 <= remaining_len <= max_remaining_len:
+                        continue
 
-        return res
+                    substr = s[i:new_i]
+                    if is_valid_part(substr):
+                        for part_list in partial_addresses:
+                            next_parts[new_i].append(part_list + [substr])
+
+            return next_parts
+
+        parts = {0: [[]]}
+        for i in [9, 6, 3, 0]:
+            parts = get_next_stage_parts(parts, i)
+
+        return ['.'.join(part) for part in parts[len_s]]
 
 
 class MyTestCase(MyTestCaseHelper):
@@ -63,6 +63,12 @@ class MyTestCase(MyTestCaseHelper):
     def test_3(self):
         input = "101023"
         expected = ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+        actual = Solution().restoreIpAddresses(input)
+        self.assert_unordered_list_equal(expected, actual)
+
+    def test_4(self):
+        input = "1111"
+        expected = ["1.1.1.1"]
         actual = Solution().restoreIpAddresses(input)
         self.assert_unordered_list_equal(expected, actual)
 
