@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where python *)",
+      "Bash(python -m unittest \"C:\\\\Users\\\\Evan\\\\Documents\\\\MacNaughty\\\\Programming\\\\Puzzles\\\\LeetCode\\\\131\\\\palindrome_partitioning.py\")"
+    ]
+  }
+}
