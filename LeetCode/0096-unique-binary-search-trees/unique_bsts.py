@@ -1,16 +1,6 @@
 # Definition for a binary tree node.
 import unittest
 
-from util.test_helper import TreeNode
-
-
-def rebalance( node):
-    pass
-
-
-def swap_children(node: TreeNode):
-    node.left, node.right = node.right, node.left
-
 class Solution:
 
     def numTrees(self, n: int) -> int:
