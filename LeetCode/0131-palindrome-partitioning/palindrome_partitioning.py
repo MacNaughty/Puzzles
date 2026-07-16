@@ -1,6 +1,6 @@
 import unittest
 
-def extend_partitions_with_palindromes(parts, end: int, dp: list[list[bool]]):
+def extend_partitions_with_palindromes(parts: list[tuple[int, int]], end: int, dp: list[list[bool]]):
     out = set()
 
     for i in range(len(parts) - 1, -1, -1):
