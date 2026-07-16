@@ -1,6 +1,6 @@
 # LeetCode Solutions
 
-A personal collection of LeetCode problems solved in multiple languages. Each folder contains the problem statement, one or more solutions, and (where present) unit tests.
+A personal collection of LeetCode problems solved in multiple languages, primarily python. Each folder contains the problem statement, one or more solutions, and (where present) unit tests.
 
 ## Overview
 

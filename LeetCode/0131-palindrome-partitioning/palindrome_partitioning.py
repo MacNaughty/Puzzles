@@ -1,6 +1,6 @@
 import unittest
 
-def extend_partitions_with_palindromes(parts: list[tuple[int, int]], end: int, dp: list[list[bool]]):
+def extend_partitions_with_palindromes(parts: tuple[tuple[int, int], ...], end: int, dp: list[list[bool]]):
     out = set()
 
     for i in range(len(parts) - 1, -1, -1):
@@ -40,7 +40,10 @@ def build_dp_array(s: str, n: int):
 
 class Solution:
 
-    def partition(self, s: str) -> list[list[str]]:
+    def partition_dfs(self, s: str) -> list[list[str]]:
+        # Top-down DFS: at each `start`, branch on every palindrome that
+        # begins there (looked up via the dp table). Each complete path
+        # from 0 to n is one valid partition.
         n = len(s)
         dp = build_dp_array(s, n)
 
@@ -58,22 +61,31 @@ class Solution:
         dfs(0, [])
         return res
 
-    def partition_v2(self, s: str) -> list[list[str]]:
+    def partition(self, s: str) -> list[list[str]]:
+        # Bottom-up sweep: carry a set of partial partitions, each stored
+        # as a tuple of (start, end) index pairs; rather than substrings.
+        # For every new character position `end`, extend every partition
+        # in two ways: as its own single-char piece, and — where the dp
+        # table allows — by merging a trailing run of pieces into one
+        # longer palindrome ending at `end`.
         n = len(s)
         dp = build_dp_array(s, n)
 
-        res = {((0, 0),)}
+        res: set[tuple[tuple[int, int], ...]] = {((0, 0),)}
 
         for end in range(1, n):
-            # append current character as its own piece
+            # every partition gains the new char as a standalone piece
             res = {(*r, (end, end)) for r in res}
 
+            # additionally, produce variants where some suffix of the
+            # existing pieces collapses into one palindrome ending at `end`
             new_parts = set()
             for r in res:
                 new_parts |= extend_partitions_with_palindromes(r, end, dp)
 
             res |= new_parts
 
+        # materialize index pairs back into substrings for the final result
         return [[s[a:b+1] for a, b in r] for r in res]
 
     def partition_original(self, s: str) -> list[list[str]]:
@@ -103,19 +115,19 @@ class MyTestCase(unittest.TestCase):
     def test_1(self):
         input = "aab"
         expected = [["a", "a", "b"], ["aa", "b"]]
-        actual = Solution().partition(input)
+        actual = Solution().partition_dfs(input)
         self.assertEqual(expected, actual)
 
     def test_2(self):
         input = "a"
         expected = [["a"]]
-        actual = Solution().partition(input)
+        actual = Solution().partition_dfs(input)
         self.assertEqual(expected, actual)
 
     def test_3(self):
         input = "fff"
         expected = [["f", "f", "f"], ["f", "ff"], ["ff", "f"], ["fff"]]
-        actual = Solution().partition(input)
+        actual = Solution().partition_dfs(input)
         self.assertEqual(expected, actual)
 
 

@@ -1,19 +1,22 @@
 # Definition for a binary tree node.
 import unittest
 
-from util.test_helper import MyTestCaseHelper
+from util.test_helper import TreeNode
 
 
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-from typing import List, Optional
+def rebalance( node):
+    pass
 
+
+def swap_children(node: TreeNode):
+    node.left, node.right = node.right, node.left
 
 class Solution:
+
     def numTrees(self, n: int) -> int:
+        """
+        Compute Catalan number for n
+        """
         dp = [0] * (n + 1)
         dp[0], dp[1] = 1, 1  # Base case: 1 BST for 0 or 1 node
 
@@ -41,11 +44,10 @@ class MyTestCase(unittest.TestCase):
         expected = 5
         self.assertEqual(actual, expected)
 
-
-
-        # for tree in actual:
-
-        # self.assertEqual(, )  # add assertion here
+    def test_3(self):
+        actual = Solution().numTrees(4)
+        expected = 14
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':
